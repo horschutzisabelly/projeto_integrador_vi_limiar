@@ -1,0 +1,132 @@
+import {StyleSheet} from 'react-native';
+
+export const styles = StyleSheet.create({
+  tela: {
+    flex: 1,
+    backgroundColor: '#FFFEFA',
+  },
+  conteudo: {
+    flexGrow: 1,
+    padding: 24,
+    paddingBottom: 40,
+  },
+  marca: {
+    color: '#253E39',
+    fontSize: 22,
+    fontWeight: '700',
+    letterSpacing: 4,
+    marginVertical: 20,
+  },
+  banner: {
+    backgroundColor: '#E7EEE5',
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 32,
+  },
+  bannerTexto: {
+    color: '#536960',
+    fontSize: 13,
+    textAlign: 'center',
+  },
+  titulo: {
+    color: '#253E39',
+    fontSize: 28,
+    fontWeight: '600',
+    marginBottom: 12,
+  },
+  descricao: {
+    color: '#536960',
+    fontSize: 15,
+    lineHeight: 23,
+  },
+  rotulo: {
+    color: '#253E39',
+    fontSize: 15,
+    fontWeight: '600',
+    marginTop: 24,
+    marginBottom: 8,
+  },
+  campo: {
+    minHeight: 52,
+    borderWidth: 1,
+    borderColor: '#BCCABD',
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    color: '#253E39',
+    fontSize: 16,
+  },
+  mostrarSenha: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    minHeight: 48,
+    marginTop: 8,
+  },
+  checkbox: {
+    width: 22,
+    height: 22,
+    borderWidth: 1,
+    borderColor: '#536960',
+    borderRadius: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  checkboxMarcado: {
+    backgroundColor: '#315D50',
+    borderColor: '#315D50',
+  },
+  check: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  erro: {
+    color: '#903C35',
+    fontSize: 14,
+    lineHeight: 22,
+    marginVertical: 12,
+  },
+  principal: {
+    minHeight: 52,
+    backgroundColor: '#315D50',
+    borderRadius: 12,
+    padding: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  principalTexto: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  linkBotao: {
+    minHeight: 48,
+    justifyContent: 'center',
+    paddingVertical: 10,
+  },
+  link: {
+    color: '#234D3F',
+    fontSize: 14,
+    textDecorationLine: 'underline',
+  },
+  demonstracao: {
+    backgroundColor: '#E7EEE5',
+    borderRadius: 12,
+    padding: 16,
+    marginTop: 20,
+  },
+  demonstracaoTexto: {
+    color: '#253E39',
+    fontSize: 14,
+    lineHeight: 23,
+  },
+  rodape: {
+    color: '#536960',
+    fontSize: 13,
+    textAlign: 'center',
+    marginTop: 24,
+  },
+});
