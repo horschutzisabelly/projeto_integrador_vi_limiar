@@ -1,0 +1,118 @@
+{
+  "data_execucao": "2026-11-20T19:26:00.929082+00:00",
+  "python": "3.13.5",
+  "scikit_learn": "1.8.0",
+  "fonte_sha256": "94b076eeda7ffd40267075ce83ff24e198c67bffa3dcd092e92c9f684c26b286",
+  "janelas_totais": 5770,
+  "janelas_baseline_stress": 1840,
+  "janelas_teste_externo": 1525,
+  "participantes": 15,
+  "labels": {
+    "1": "baseline",
+    "2": "stress_experimental"
+  },
+  "calibracao": {
+    "janelas_baseline_por_pessoa": 20,
+    "avaliacao": "apenas janelas com inicio_s >= fim da 20a janela baseline"
+  },
+  "selecao_features": "ANOVA em medianas por participante e estado, somente treino de cada dobra",
+  "features_candidatas": [
+    "EDA_mean",
+    "EDA_std",
+    "EDA_min",
+    "EDA_max",
+    "ACC_mean",
+    "ACC_std",
+    "ACC_max"
+  ],
+  "features_modelo_final": [
+    "EDA_std",
+    "ACC_max",
+    "ACC_std",
+    "EDA_max"
+  ],
+  "threshold": {
+    "Random_Forest": 0.72,
+    "Regressao_Logistica": 0.5048777491056371
+  },
+  "modelos_salvos": {
+    "Random_Forest": "LIMIAR_N9_Random_Forest_experimental.joblib",
+    "Regressao_Logistica": "LIMIAR_N9_Regressao_Logistica_experimental.joblib"
+  },
+  "validacao_externa": "LeaveOneGroupOut por pessoa",
+  "validacao_interna": "GroupKFold(3) por participante, meta FPR<=0.15",
+  "politica_alertas": {
+    "consecutivas": 3,
+    "cooldown_s": 300
+  },
+  "intervalo_bootstrap_rf_participantes": {
+    "recall": {
+      "lower_95": 0.29383355613972073,
+      "upper_95": 0.5330181409273241
+    },
+    "f1": {
+      "lower_95": 0.3885868212242654,
+      "upper_95": 0.6105758868768727
+    },
+    "fpr_baseline": {
+      "lower_95": 0.025389374690645106,
+      "upper_95": 0.14340263706305417
+    }
+  },
+  "metricas_macro": {
+    "Random_Forest": {
+      "accuracy": 0.694641,
+      "precision": 0.796938,
+      "recall": 0.404247,
+      "f1": 0.498698,
+      "fpr_baseline": 0.080221,
+      "auc": 0.864838
+    },
+    "Regressao_Logistica": {
+      "accuracy": 0.729626,
+      "precision": 0.8461,
+      "recall": 0.552818,
+      "f1": 0.606916,
+      "fpr_baseline": 0.132829,
+      "auc": 0.879269
+    }
+  },
+  "alertas_rf_3janelas": {
+    "modelo": "Random_Forest",
+    "consecutivas": 3,
+    "cooldown_s": 300,
+    "falsos_alertas": 4,
+    "alertas_stress": 19,
+    "horas_baseline": 3.6374999999999993,
+    "falsos_alertas_por_hora": 1.0996563573883165,
+    "participantes_com_alerta_stress": 13,
+    "participantes_com_stress": 15,
+    "latencia_mediana_detectados_s": 60.0,
+    "latencia_p95_detectados_s": 491.99999999999983
+  },
+  "observacao": "Métricas exploratórias de stress experimental WESAD. Dados de treino não são teste independente prospectivo; não é validador de sobrecarga sensorial.",
+  "limites": [
+    "15 participantes apenas; janelas sobrepostas não são independentes",
+    "WESAD não representa sobrecarga sensorial em população autista",
+    "Não foi realizado teste em wearable físico nem validação prospectiva",
+    "Características EDA/ACC exigem validação de unidades/escala e sensores",
+    "Política de alertas 3 janelas + cooldown 5 min é experimental",
+    "Não empregar como diagnóstico ou alerta médico"
+  ],
+  "comparacao_rf_limiar_05": [
+    {
+      "cenario": "RF limiar 0,50 (referência fixa)",
+      "recall": 0.6173517811005875,
+      "f1": 0.6438444290646849,
+      "fpr": 0.17770362271085147,
+      "falsos_alertas_h_k3": 2.749140893470791
+    },
+    {
+      "cenario": "RF limiar interno (meta FPR<=15%)",
+      "recall": 0.4042474238857362,
+      "f1": 0.498698478979834,
+      "fpr": 0.0802212409865675,
+      "falsos_alertas_h_k3": 1.0996563573883165
+    }
+  ]
+}
