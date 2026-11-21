@@ -40,6 +40,28 @@ yarn-error.*
 /ios
 /android
 
+# LIMIAR - Inteligência Artificial
+
+# Dados utilizados no treinamento
+ml/**/features_consolidado.csv
+ml/data/
+ml/datasets/
+ml/resultados_privados/
+
+# Resultados individuais dos participantes
+ml/**/LOPO_predicoes_externas.csv
+ml/**/LOPO_metricas_por_participante.csv
+ml/**/LOPO_alertas_politica_3janelas.csv
+ml/**/LOPO_features_por_dobra.csv
+
+# Arquivos temporários do Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.ipynb_checkpoints/
+
 # Variáveis de ambiente e credenciais locais
 .env
 .env.*
