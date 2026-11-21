@@ -17,9 +17,11 @@ import Historico from './src/screens/historico';
 import DetalhesEvento from './src/screens/detalhesEventos';
 import Configuracoes from './src/screens/configuracao';
 import FeedbackScreen from './src/screens/feedbackScreen';
+import AnaliseIA from './src/screens/analiseIA';
 
 import type {Evento} from './src/screens/detalhesEventos';
 import type {FeedbackResposta} from './src/screens/feedbackScreen';
+import type {RegistroAnaliseIA} from './src/types/analiseIA';
 
 import BottomNavigation from './src/components/bottomNavigation';
 import type {
@@ -39,7 +41,8 @@ type Tela =
   | 'historico'
   | 'detalhes'
   | 'feedback'
-  | 'configuracoes';
+  | 'configuracoes'
+  | 'analiseIA';
 
 type OrigemDetalhes = 'alerta' | 'historico';
 
@@ -49,8 +52,7 @@ const TEXTOS_FEEDBACK: Record<FeedbackResposta, string> = {
   nao_sei: 'Não sei dizer',
 };
 
-// Evento fictício usado enquanto o armazenamento
-// e a análise dos sinais não estão integrados.
+// Evento ficticio original do aplicativo, separado das previsoes da IA.
 const EVENTO_INICIAL: Evento = {
   id: 'evento-exemplo-01',
   data: '28 out 2026',
@@ -65,6 +67,9 @@ export default function App() {
   const [evento, setEvento] = useState<Evento>({
     ...EVENTO_INICIAL,
   });
+
+  // Historico experimental em memoria: sem dados reais nem persistencia.
+  const [registrosIA, setRegistrosIA] = useState<RegistroAnaliseIA[]>([]);
 
   const [resposta, setResposta] = useState<
     FeedbackResposta | undefined
@@ -150,12 +155,14 @@ export default function App() {
   }
 
   function finalizarSessao() {
-    // TODO: encerrar a sessão quando a autenticação for integrada.
+    // TODO: encerrar a sessao quando a autenticacao for integrada.
     setTela('login');
   }
 
-  // Feedback já possui sua própria SafeAreaView.
-  // A navegação inferior fica oculta nessa etapa.
+  function registrarAnaliseIA(registro: RegistroAnaliseIA) {
+    setRegistrosIA(atual => [registro, ...atual].slice(0, 50));
+  }
+
   if (tela === 'feedback') {
     return (
       <FeedbackScreen
@@ -209,10 +216,7 @@ export default function App() {
             onVoltarLogin={() => setTela('login')}
             onConcluido={() => {
               setTela('login');
-
-              Alert.alert(
-                'Redefinição demonstrada',
-              );
+              Alert.alert('Redefinição demonstrada');
             }}
           />
         )}
@@ -223,6 +227,17 @@ export default function App() {
             onSimularAlteracao={simularAlteracao}
             onAbrirAlerta={() => setTela('alerta')}
             onAbrirHistorico={() => setTela('historico')}
+            onAbrirAnaliseIA={() => setTela('analiseIA')}
+            ultimoRegistroIA={registrosIA[0]}
+          />
+        )}
+
+        {tela === 'analiseIA' && (
+          <AnaliseIA
+            registros={registrosIA}
+            onRegistrar={registrarAnaliseIA}
+            onVoltar={voltarPainel}
+            onVerHistorico={() => setTela('historico')}
           />
         )}
 
@@ -245,7 +260,9 @@ export default function App() {
         {tela === 'historico' && (
           <Historico
             eventos={[evento]}
+            registrosIA={registrosIA}
             onAbrirEvento={() => abrirDetalhes('historico')}
+            onAbrirAnaliseIA={() => setTela('analiseIA')}
             onVoltarPainel={voltarPainel}
           />
         )}
@@ -268,9 +285,7 @@ export default function App() {
             preferencias={preferencias}
             mensagem={mensagem}
             onAlterarSom={valor => alterar('som', valor)}
-            onAlterarNotificacoes={valor =>
-              alterar('notificacoes', valor)
-            }
+            onAlterarNotificacoes={valor => alterar('notificacoes', valor)}
             onAjustarVolume={ajustarVolume}
             onSalvar={salvar}
             onVoltarPainel={voltarPainel}

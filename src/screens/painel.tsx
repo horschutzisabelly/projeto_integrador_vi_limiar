@@ -2,20 +2,24 @@ import React, {useState} from 'react';
 import {Pressable, ScrollView, Text, View} from 'react-native';
 
 import {styles} from '../styles/painelStyles';
+import type {RegistroAnaliseIA} from '../types/analiseIA';
 
 type Props = {
   alteracaoAtiva: boolean;
   onSimularAlteracao: () => void;
   onAbrirAlerta: () => void;
   onAbrirHistorico: () => void;
+  onAbrirAnaliseIA: () => void;
+  ultimoRegistroIA?: RegistroAnaliseIA;
 };
 
 export default function Painel({
   alteracaoAtiva,
   onSimularAlteracao,
   onAbrirAlerta,
-  onAbrirHistorico, 
-
+  onAbrirHistorico,
+  onAbrirAnaliseIA,
+  ultimoRegistroIA,
 }: Props) {
   const [mostrarSinais, setMostrarSinais] = useState(false);
 
@@ -43,7 +47,7 @@ export default function Painel({
             styles.estado,
             alteracaoAtiva && styles.estadoAlterado,
           ]}>
-          <Text style={styles.sobretitulo}>ANÁLISE SIMULADA</Text>
+          <Text style={styles.sobretitulo}>ANÁLISE SIMULADA ORIGINAL</Text>
 
           <Text accessibilityRole="header" style={styles.estadoTitulo}>
             {alteracaoAtiva
@@ -114,18 +118,37 @@ export default function Painel({
         )}
 
         <View style={styles.simulacao}>
-          <Text style={styles.texto}>Simulação</Text>
-          <Text style={styles.valor}>Aguardando próximo passo</Text>
+          <Text style={styles.texto}>Integração com a IA</Text>
+          <Text style={styles.valor}>
+            {ultimoRegistroIA
+              ? `Último resultado: ${ultimoRegistroIA.resultado.indicador_experimental === 1 ? 'variação experimental' : 'referência experimental'}`
+              : 'Ainda não executada nesta sessão'}
+          </Text>
+          {ultimoRegistroIA && (
+            <Text style={styles.texto}>
+              Score do modelo: {(ultimoRegistroIA.resultado.score_modelo * 100).toFixed(1)}% · {ultimoRegistroIA.dataHora}
+            </Text>
+          )}
+          <Text style={styles.observacao}>
+            A análise da IA usa exemplos artificiais. Não gera alertas clínicos.
+          </Text>
         </View>
 
         <Pressable
           accessibilityRole="button"
-          onPress={
-            alteracaoAtiva ? onAbrirAlerta : onSimularAlteracao
-          }
+          onPress={onAbrirAnaliseIA}
           style={styles.principal}>
           <Text style={styles.principalTexto}>
-            {alteracaoAtiva ? 'Ver alerta' : 'Simular alteração'}
+            Abrir análise com IA
+          </Text>
+        </Pressable>
+
+        <Pressable
+          accessibilityRole="button"
+          onPress={alteracaoAtiva ? onAbrirAlerta : onSimularAlteracao}
+          style={styles.secundario}>
+          <Text style={styles.link}>
+            {alteracaoAtiva ? 'Ver alerta da simulação original' : 'Simular alteração original'}
           </Text>
         </Pressable>
 
@@ -139,7 +162,6 @@ export default function Painel({
         <Text style={styles.rodape}>
           Esta demonstração não faz diagnóstico.
         </Text>
-        
       </ScrollView>
     </View>
   );
